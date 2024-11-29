@@ -1,0 +1,61 @@
+---
+// src/pages/cart.astro
+import Layout from '../layouts/Layout.astro';
+
+interface CartItem {
+  id: number;
+  title: string;
+  price: number;
+  description: string;
+  image: string;
+  category: string;
+  quantity: number;
+}
+---
+
+<Layout title="Cart | Store">
+  <div class="max-w-7xl mx-auto px-4 py-16">
+    <h1 class="text-5xl font-bold text-center mb-16 gradient-text">Shopping Cart</h1>
+    
+    <div id="cart-items" class="space-y-8">
+      <!-- Cart items will be dynamically inserted here -->
+    </div>
+
+    <div class="mt-8 flex justify-between items-center border-t pt-8">
+      <div class="text-2xl font-bold">Total: $<span id="cart-total">0.00</span></div>
+      <button 
+        id="checkout-button"
+        class="px-8 py-3 rounded-full bg-black text-white hover:bg-gray-800 transition-colors"
+      >
+        Proceed to Checkout
+      </button>
+    </div>
+  </div>
+</Layout>
+
+<script>
+  import type { CartItem } from '../types';
+
+  function updateCart(): void {
+    // ... rest of your updateCart function
+  }
+
+  function updateQuantity(productId: number, newQuantity: number): void {
+    // ... rest of your updateQuantity function
+  }
+
+  function removeFromCart(productId: number): void {
+    // ... rest of your removeFromCart function
+  }
+
+  // Initial cart render
+  updateCart();
+
+  // Listen for cart updates
+  window.addEventListener('cart-updated', updateCart);
+
+  // Checkout button handler
+  document.getElementById('checkout-button')?.addEventListener('click', () => {
+    alert('Checkout functionality coming soon!');
+  });
+</script>
