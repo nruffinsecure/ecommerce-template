@@ -1,0 +1,112 @@
+---
+// src/pages/checkout.astro
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Checkout | Store">
+  <div class="max-w-7xl mx-auto px-4 py-16">
+    <h1 class="text-4xl font-bold text-center mb-8">Checkout</h1>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+      <!-- Cart Summary -->
+      <div class="space-y-6">
+        <h2 class="text-2xl font-semibold mb-4">Order Summary</h2>
+        <div id="cart-items" class="space-y-4">
+          <!-- Cart items will be dynamically inserted here -->
+        </div>
+        <div class="border-t pt-4">
+          <div class="flex justify-between text-xl font-bold">
+            <span>Total:</span>
+            <span id="cart-total">$0.00</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Checkout Form -->
+      <div class="bg-gray-50 p-6 rounded-lg">
+        <h2 class="text-2xl font-semibold mb-6">Payment Details</h2>
+        <form id="checkout-form" class="space-y-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Name</label>
+            <input type="text" id="name" required 
+              class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+            <input type="email" id="email" required 
+              class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Shipping Address</label>
+            <textarea id="address" required 
+              class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+            ></textarea>
+          </div>
+          <button 
+            type="submit"
+            id="checkout-button"
+            class="w-full bg-black text-white py-3 rounded-full hover:bg-gray-800 transition-colors"
+          >
+            Complete Order
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<script>
+  interface CartItem {
+    id: number;
+    title: string;
+    price: number;
+    quantity: number;
+    image: string;
+  }
+
+  function updateCartSummary() {
+    const cartItemsContainer = document.getElementById('cart-items');
+    const totalElement = document.getElementById('cart-total');
+    const cart = JSON.parse(localStorage.getItem('cart') || '[]') as CartItem[];
+    
+    if (!cartItemsContainer || !totalElement) return;
+    
+    if (cart.length === 0) {
+      cartItemsContainer.innerHTML = '<p class="text-gray-500">Your cart is empty</p>';
+      totalElement.textContent = '$0.00';
+      return;
+    }
+
+    let total = 0;
+    cartItemsContainer.innerHTML = cart.map(item => {
+      total += item.price * item.quantity;
+      return `
+        <div class="flex items-center gap-4">
+          <img src="${item.image}" alt="${item.title}" class="w-16 h-16 object-cover rounded"/>
+          <div class="flex-grow">
+            <h3 class="font-medium">${item.title}</h3>
+            <p class="text-gray-600">Quantity: ${item.quantity}</p>
+            <p class="text-gray-800">$${(item.price * item.quantity).toFixed(2)}</p>
+          </div>
+        </div>
+      `;
+    }).join('');
+    
+    totalElement.textContent = `$${total.toFixed(2)}`;
+  }
+
+  // Handle form submission
+  const form = document.getElementById('checkout-form');
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    alert('Checkout functionality coming soon!');
+  });
+
+  // Initial cart render
+  updateCartSummary();
+
+  // Listen for cart updates
+  window.addEventListener('cart-updated', updateCartSummary);
+</script>
