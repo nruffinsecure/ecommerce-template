@@ -1,16 +1,49 @@
+<!-- src/pages/index.astro -->
+---
+import Layout from '../layouts/Layout.astro';
+
+interface Category {
+  name: string;
+  description: string;
+}
+
+const categories: Category[] = [
+  { name: "Electronics", description: "Latest tech innovations" },
+  { name: "Fashion", description: "Trending styles" },
+  { name: "Home", description: "Premium living" },
+  { name: "Lifestyle", description: "Curated experiences" }
+];
 ---
 
----
+<Layout title="NR Store">
+  <section class="bg-gray-50 py-24">
+    <div class="max-w-7xl mx-auto px-4 text-center">
+      <h1 class="text-5xl font-semibold tracking-tight text-gray-900 mb-4">
+        Welcome to NR Store
+      </h1>
+      <p class="text-xl text-gray-500 mb-8">
+        Discover amazing products
+      </p>
+      <a 
+        href="/products" 
+        class="inline-block bg-black text-white px-8 py-3 rounded-full text-sm font-semibold hover:bg-gray-800 transition-colors"
+      >
+        Shop Now
+      </a>
+    </div>
+  </section>
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+  <section class="py-24">
+    <div class="max-w-7xl mx-auto px-4">
+      <h2 class="text-3xl font-semibold text-center mb-16">Featured Categories</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {categories.map((category) => (
+          <div class="bg-gray-50 rounded-2xl p-8 hover:bg-gray-100 transition-colors">
+            <h3 class="text-2xl font-semibold mb-2">{category.name}</h3>
+            <p class="text-gray-500">{category.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</Layout>

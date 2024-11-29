@@ -1,0 +1,27 @@
+<!-- src/components/Header.astro -->
+---
+const navItems = [
+  { name: 'Home', path: '/' },
+  { name: 'Products', path: '/products' },
+  { name: 'About', path: '/about' },
+  { name: 'Contact', path: '/contact' },
+  { name: 'Cart', path: '/cart' }
+];
+---
+<header class="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-gray-200">
+  <nav class="max-w-7xl mx-auto px-4">
+    <div class="flex items-center justify-between h-16">
+      <a href="/" class="text-xl font-semibold">NR</a>
+      <div class="hidden md:flex space-x-8">
+        {navItems.map((item) => (
+          <a 
+            href={item.path}
+            class="text-sm text-gray-600 hover:text-gray-900 transition-colors"
+          >
+            {item.name}
+          </a>
+        ))}
+      </div>
+    </div>
+  </nav>
+</header>
