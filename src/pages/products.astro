@@ -1,5 +1,4 @@
 ---
-// src/pages/products.astro
 import Layout from '../layouts/Layout.astro';
 import type { Product } from '../types';
 
@@ -102,12 +101,32 @@ const products: Product[] = [
       ))}
     </div>
   </div>
+
+  <!-- Apple-style notification -->
+  <div id="cart-notification" class="fixed top-6 left-1/2 transform -translate-x-1/2 bg-gray-900/90 backdrop-blur-sm text-white px-6 py-3 rounded-full opacity-0 transition-all duration-300 flex items-center gap-2 shadow-lg z-50">
+    <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+    </svg>
+    <span class="font-medium">Added to Cart</span>
+  </div>
 </Layout>
 
 <script>
   declare global {
     interface Window {
       addToCart: (product: any) => void;
+    }
+  }
+
+  function showNotification() {
+    const notification = document.getElementById('cart-notification');
+    if (notification) {
+      notification.style.opacity = '1';
+      notification.style.transform = 'translate(-50%, 0)';
+      setTimeout(() => {
+        notification.style.opacity = '0';
+        notification.style.transform = 'translate(-50%, -1rem)';
+      }, 2000);
     }
   }
 
@@ -123,7 +142,7 @@ const products: Product[] = [
     
     localStorage.setItem('cart', JSON.stringify(cart));
     window.dispatchEvent(new Event('cart-updated'));
-    alert('Product added to cart!');
+    showNotification();
   }
 
   window.addToCart = addToCart;
