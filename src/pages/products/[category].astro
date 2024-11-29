@@ -1,0 +1,132 @@
+<!-- src/pages/products/[category].astro -->
+---
+import Layout from '../../layouts/Layout.astro';
+
+interface Product {
+  id: number;
+  title: string;
+  price: number;
+  description: string;
+  image: string;
+  category: string;
+}
+
+type CategoryKey = 'electronics' | 'fashion' | 'home' | 'lifestyle';
+
+const productsByCategory: Record<CategoryKey, Product[]> = {
+  electronics: [
+    {
+      id: 1,
+      title: "Smart 4K TV",
+      price: 899.99,
+      description: "Ultra HD Smart TV with HDR",
+      image: "/images/electronics.jpg",
+      category: "electronics"
+    },
+    {
+      id: 2,
+      title: "Wireless Headphones",
+      price: 249.99,
+      description: "Noise-cancelling wireless headphones",
+      image: "/images/electronics.jpg",
+      category: "electronics"
+    }
+  ],
+  fashion: [
+    {
+      id: 3,
+      title: "Winter Coat",
+      price: 199.99,
+      description: "Premium winter coat",
+      image: "/images/fashion.jpg",
+      category: "fashion"
+    },
+    {
+      id: 4,
+      title: "Designer Bag",
+      price: 299.99,
+      description: "Luxury leather bag",
+      image: "/images/fashion.jpg",
+      category: "fashion"
+    }
+  ],
+  home: [
+    {
+      id: 5,
+      title: "Modern Sofa",
+      price: 999.99,
+      description: "Contemporary living room sofa",
+      image: "/images/home.jpg",
+      category: "home"
+    },
+    {
+      id: 6,
+      title: "Table Lamp",
+      price: 129.99,
+      description: "Designer table lamp",
+      image: "/images/home.jpg",
+      category: "home"
+    }
+  ],
+  lifestyle: [
+    {
+      id: 7,
+      title: "Fitness Watch",
+      price: 199.99,
+      description: "Smart fitness tracker",
+      image: "/images/lifestyle.jpg",
+      category: "lifestyle"
+    },
+    {
+      id: 8,
+      title: "Yoga Mat",
+      price: 49.99,
+      description: "Premium yoga mat",
+      image: "/images/lifestyle.jpg",
+      category: "lifestyle"
+    }
+  ]
+};
+
+export function getStaticPaths() {
+  return [
+    {params: {category: 'electronics'}},
+    {params: {category: 'fashion'}},
+    {params: {category: 'home'}},
+    {params: {category: 'lifestyle'}}
+  ];
+}
+
+const { category } = Astro.params;
+const products = productsByCategory[category as CategoryKey] || [];
+---
+
+<Layout title={`${category.charAt(0).toUpperCase() + category.slice(1)} | NR Store`}>
+  <div class="max-w-7xl mx-auto px-4 py-16">
+    <h1 class="text-3xl font-semibold mb-8 capitalize">{category}</h1>
+    
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      {products.map((product: Product) => (
+        <div class="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow">
+          <div class="aspect-square overflow-hidden rounded-t-lg">
+            <img 
+              src={product.image} 
+              alt={product.title}
+              class="w-full h-full object-cover"
+            />
+          </div>
+          <div class="p-6">
+            <h2 class="text-lg font-semibold mb-2">{product.title}</h2>
+            <p class="text-gray-600 mb-4">{product.description}</p>
+            <div class="flex justify-between items-center">
+              <span class="text-xl font-bold">${product.price}</span>
+              <button class="bg-black text-white px-6 py-2 rounded-full hover:bg-gray-800">
+                Add to Cart
+              </button>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</Layout>

@@ -5,31 +5,52 @@ import Layout from '../layouts/Layout.astro';
 interface Category {
   name: string;
   description: string;
+  image: string;
 }
 
 const categories: Category[] = [
-  { name: "Electronics", description: "Latest tech innovations" },
-  { name: "Fashion", description: "Trending styles" },
-  { name: "Home", description: "Premium living" },
-  { name: "Lifestyle", description: "Curated experiences" }
+  { 
+    name: "Electronics", 
+    description: "Latest tech innovations",
+    image: "/images/electronics.jpg"
+  },
+  { 
+    name: "Fashion", 
+    description: "Trending styles",
+    image: "/images/fashion.jpg"
+  },
+  { 
+    name: "Home", 
+    description: "Premium living",
+    image: "/images/home.jpg"
+  },
+  { 
+    name: "Lifestyle", 
+    description: "Curated experiences",
+    image: "/images/lifestyle.jpg"
+  }
 ];
 ---
 
 <Layout title="NR Store">
-  <section class="bg-gray-50 py-24">
-    <div class="max-w-7xl mx-auto px-4 text-center">
-      <h1 class="text-5xl font-semibold tracking-tight text-gray-900 mb-4">
-        Welcome to NR Store
-      </h1>
-      <p class="text-xl text-gray-500 mb-8">
-        Discover amazing products
-      </p>
-      <a 
-        href="/products" 
-        class="inline-block bg-black text-white px-8 py-3 rounded-full text-sm font-semibold hover:bg-gray-800 transition-colors"
-      >
-        Shop Now
-      </a>
+  <section class="relative h-[80vh]">
+    <div 
+      class="absolute inset-0 bg-cover bg-center"
+      style="background-image: url('/images/hero-main.jpg')"
+    >
+      <div class="absolute inset-0 bg-black/40"></div>
+    </div>
+    <div class="relative z-10 h-full flex items-center justify-center">
+      <div class="text-center px-4">
+        <h1 class="text-5xl font-semibold text-white mb-4">Welcome to NR Store</h1>
+        <p class="text-xl text-white/90 mb-8">Discover amazing products</p>
+        <a 
+          href="/products" 
+          class="inline-block bg-white text-black px-8 py-3 rounded-full hover:bg-gray-100 transition-colors"
+        >
+          Shop Now
+        </a>
+      </div>
     </div>
   </section>
 
@@ -38,9 +59,16 @@ const categories: Category[] = [
       <h2 class="text-3xl font-semibold text-center mb-16">Featured Categories</h2>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         {categories.map((category) => (
-          <div class="bg-gray-50 rounded-2xl p-8 hover:bg-gray-100 transition-colors">
-            <h3 class="text-2xl font-semibold mb-2">{category.name}</h3>
-            <p class="text-gray-500">{category.description}</p>
+          <div class="relative h-64 rounded-2xl overflow-hidden group">
+            <img 
+              src={category.image} 
+              alt={category.name}
+              class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+            />
+            <div class="absolute inset-0 bg-black/40 p-8 flex flex-col justify-end">
+              <h3 class="text-2xl font-semibold text-white mb-2">{category.name}</h3>
+              <p class="text-white/80">{category.description}</p>
+            </div>
           </div>
         ))}
       </div>
