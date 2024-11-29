@@ -1,4 +1,3 @@
-<!-- src/pages/index.astro -->
 ---
 import Layout from '../layouts/Layout.astro';
 
@@ -6,28 +5,33 @@ interface Category {
   name: string;
   description: string;
   image: string;
+  slug: string;
 }
 
 const categories: Category[] = [
   { 
     name: "Electronics", 
     description: "Latest tech innovations",
-    image: "/images/electronics.jpg"
+    image: "/images/electronics/headphones.jpg",
+    slug: "electronics"
   },
   { 
     name: "Fashion", 
     description: "Trending styles",
-    image: "/images/fashion.jpg"
+    image: "/images/fashion/wintercoat.jpg",
+    slug: "fashion"
   },
   { 
     name: "Home", 
     description: "Premium living",
-    image: "/images/home.jpg"
+    image: "/images/home/tablelamp.jpg",
+    slug: "home"
   },
   { 
     name: "Lifestyle", 
     description: "Curated experiences",
-    image: "/images/lifestyle.jpg"
+    image: "/images/lifestyle/yogamat.jpg",
+    slug: "lifestyle"
   }
 ];
 ---
@@ -59,7 +63,10 @@ const categories: Category[] = [
       <h2 class="text-3xl font-semibold text-center mb-16">Featured Categories</h2>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         {categories.map((category) => (
-          <div class="relative h-64 rounded-2xl overflow-hidden group">
+          <a 
+            href={`/products/${category.slug}`} 
+            class="relative h-64 rounded-2xl overflow-hidden group cursor-pointer"
+          >
             <img 
               src={category.image} 
               alt={category.name}
@@ -69,7 +76,7 @@ const categories: Category[] = [
               <h3 class="text-2xl font-semibold text-white mb-2">{category.name}</h3>
               <p class="text-white/80">{category.description}</p>
             </div>
-          </div>
+          </a>
         ))}
       </div>
     </div>
