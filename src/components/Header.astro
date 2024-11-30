@@ -75,36 +75,48 @@ const currentPath = Astro.url.pathname;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     z-index: 40;
   }
+
+  @media (max-width: 768px) {
+    #mobile-menu.block {
+      display: block;
+    }
+  }
 </style>
 
 <script>
-  function setupMobileMenu() {
+  document.addEventListener('astro:page-load', () => {
     const button = document.getElementById('mobile-button');
     const menu = document.getElementById('mobile-menu');
 
     button?.addEventListener('click', () => {
       menu?.classList.toggle('hidden');
-      console.log('Menu clicked'); // For debugging
     });
-  }
 
-  function updateCartCount() {
-    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-    const count = cart.reduce((total: number, item: { quantity: number }) => total + item.quantity, 0);
-    const cartCount = document.getElementById('cart-count');
-    
-    if (cartCount) {
-      cartCount.textContent = count.toString();
-      cartCount.style.display = count > 0 ? 'inline-flex' : 'none';
+    function updateCartCount() {
+      const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+      const count = cart.reduce((total: number, item: { quantity: number }) => total + item.quantity, 0);
+      const cartCount = document.getElementById('cart-count');
+      
+      if (cartCount) {
+        cartCount.textContent = count.toString();
+        cartCount.style.display = count > 0 ? 'inline-flex' : 'none';
+      }
     }
-  }
 
-  document.addEventListener('astro:page-load', () => {
-    setupMobileMenu();
     updateCartCount();
   });
 
   window.addEventListener('cart-updated', () => {
+    const updateCartCount = () => {
+      const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+      const count = cart.reduce((total: number, item: { quantity: number }) => total + item.quantity, 0);
+      const cartCount = document.getElementById('cart-count');
+      
+      if (cartCount) {
+        cartCount.textContent = count.toString();
+        cartCount.style.display = count > 0 ? 'inline-flex' : 'none';
+      }
+    };
     updateCartCount();
   });
 </script>
