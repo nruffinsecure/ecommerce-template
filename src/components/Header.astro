@@ -16,15 +16,18 @@ const currentPath = Astro.url.pathname;
 <header class="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-gray-200">
   <nav class="max-w-7xl mx-auto px-4">
     <div class="flex items-center justify-between h-16">
-      <a href="/" class="text-xl font-semibold">NR</a>
+      <a href="/" class="text-xl font-semibold z-50">NR</a>
       
-      <!-- Desktop Navigation -->
-      <div class="nav-links hidden md:flex items-center space-x-8">
+      <div class="md:hidden">
+        <Hamburger />
+      </div>
+
+      <div class="nav-links md:flex items-center space-x-8">
         {navItems.map((item) => (
           <a 
             href={item.path}
             class:list={[
-              "text-sm hover:text-gray-900 transition-colors",
+              "block py-2 text-sm hover:text-gray-900 transition-colors",
               currentPath === item.path ? "text-black font-medium" : "text-gray-600"
             ]}
           >
@@ -37,8 +40,6 @@ const currentPath = Astro.url.pathname;
           </a>
         ))}
       </div>
-
-      <Hamburger />
     </div>
   </nav>
 </header>
@@ -47,14 +48,16 @@ const currentPath = Astro.url.pathname;
   @media (max-width: 768px) {
     .nav-links {
       display: none;
-      position: absolute;
+      position: fixed;
       top: 64px;
       left: 0;
       right: 0;
       background: white;
-      padding: 1rem;
+      padding: 2rem;
       flex-direction: column;
       gap: 1rem;
+      width: 100%;
+      text-align: center;
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
 
@@ -63,35 +66,3 @@ const currentPath = Astro.url.pathname;
     }
   }
 </style>
-
-<script>
-  function setupNavigation() {
-    const hamburger = document.querySelector('.hamburger');
-    const navLinks = document.querySelector('.nav-links');
-    
-    hamburger?.addEventListener('click', () => {
-      navLinks?.classList.toggle('expanded');
-      hamburger?.classList.toggle('active');
-    });
-  }
-
-  // Update cart count
-  function updateCartCount() {
-    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-    const count = cart.reduce((total: number, item: any) => total + item.quantity, 0);
-    const cartCount = document.getElementById('cart-count');
-    
-    if (cartCount) {
-      cartCount.textContent = count.toString();
-      cartCount.style.display = count > 0 ? 'inline-flex' : 'none';
-    }
-  }
-
-  // Initialize all functionality
-  document.addEventListener('astro:page-load', () => {
-    setupNavigation();
-    updateCartCount();
-  });
-
-  window.addEventListener('cart-updated', updateCartCount);
-</script>
