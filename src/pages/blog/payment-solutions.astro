@@ -1,0 +1,105 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout title="Integrating Payment Solutions | Store">
+  <article class="max-w-3xl mx-auto px-4 py-16">
+    <img 
+      src="/images/blog/payment-blog.jpg" 
+      alt="Payment Integration"
+      class="w-full aspect-[16/9] object-cover rounded-2xl mb-8"
+    />
+
+    <div class="space-y-6">
+      <div class="flex items-center gap-4 text-sm text-gray-600">
+        <time>November 28, 2023</time>
+        <span class="w-1 h-1 bg-gray-300 rounded-full"></span>
+        <span>8 min read</span>
+      </div>
+
+      <h1 class="text-4xl font-bold tracking-tight">The Complete Guide to Payment Integration</h1>
+      
+      <div class="prose prose-lg max-w-none">
+        <p class="text-xl text-gray-600 leading-relaxed mb-8">
+          Modern e-commerce demands seamless payment experiences. Here's how to integrate popular payment solutions while maintaining security and user experience.
+        </p>
+
+        <div class="bg-gray-50 rounded-xl p-8 my-8">
+          <h2 class="text-xl font-semibold mb-4">Quick Takeaways</h2>
+          <ul class="space-y-2 text-gray-600">
+            <li class="flex items-center gap-2">
+              <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              Multiple payment gateway support
+            </li>
+            <li class="flex items-center gap-2">
+              <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              PCI compliance considerations
+            </li>
+            <li class="flex items-center gap-2">
+              <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              Mobile payment optimization
+            </li>
+          </ul>
+        </div>
+
+        <h2 class="text-2xl font-bold mt-12 mb-6">Understanding Payment Integration</h2>
+        <p>
+          Modern e-commerce platforms require robust payment processing capabilities. This guide explores implementing secure payment solutions while maintaining a seamless user experience. We'll cover everything from basic setup to advanced features.
+        </p>
+
+        <h2 class="text-2xl font-bold mt-12 mb-6">Key Implementation Steps</h2>
+        <div class="grid md:grid-cols-2 gap-6 my-8">
+          <div class="bg-gray-50 p-6 rounded-xl">
+            <h3 class="font-semibold mb-4">Security First</h3>
+            <p class="text-gray-600">
+              Implement SSL certificates, data encryption, and secure payment token handling for maximum protection.
+            </p>
+          </div>
+          <div class="bg-gray-50 p-6 rounded-xl">
+            <h3 class="font-semibold mb-4">User Experience</h3>
+            <p class="text-gray-600">
+              Design intuitive checkout flows with clear error handling and payment confirmation.
+            </p>
+          </div>
+        </div>
+
+        <h2 class="text-2xl font-bold mt-12 mb-6">Looking Ahead</h2>
+        <p>
+          The future of e-commerce payments lies in adaptability. Stay ready for emerging payment methods and evolving security standards while maintaining a focus on user experience.
+        </p>
+
+        <div class="border-t border-gray-200 mt-12 pt-8">
+          <a 
+            href="/blog" 
+            class="inline-flex items-center text-sm font-medium text-gray-600 hover:text-black"
+          >
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+            Back to Blog
+          </a>
+        </div>
+      </div>
+    </div>
+  </article>
+</Layout>
+
+<style>
+  .prose {
+    max-width: none;
+  }
+  .prose h2 {
+    font-weight: 700;
+    line-height: 1.3;
+  }
+  .prose p {
+    margin-bottom: 1.5rem;
+    line-height: 1.75;
+  }
+</style>

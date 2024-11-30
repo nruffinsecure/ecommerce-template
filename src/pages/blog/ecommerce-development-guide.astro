@@ -3,57 +3,124 @@ import Layout from '../../layouts/Layout.astro';
 ---
 
 <Layout title="E-commerce Development Guide | Store">
-  <div class="max-w-4xl mx-auto px-4 py-16">
-    <!-- Back Button -->
-    <a href="/blog" class="inline-flex items-center text-gray-600 hover:text-black mb-8">
-      <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-      </svg>
-      Back to Blog
-    </a>
+  <article class="max-w-3xl mx-auto px-4 py-16">
+    <img 
+      src="/images/blog/ecom-blog.jpg" 
+      alt="E-commerce Development"
+      class="w-full aspect-video object-cover rounded-2xl mb-8 shadow-lg"
+    />
 
-    <article class="prose prose-lg max-w-none">
-      <!-- Header -->
-      <div class="mb-12">
-        <h1 class="text-4xl font-bold mb-4">E-commerce Development Guide</h1>
-        <div class="flex items-center gap-4 text-sm text-gray-600">
-          <span>November 29, 2023</span>
-          <span class="w-1 h-1 bg-gray-300 rounded-full"></span>
-          <span>Development</span>
+    <div class="space-y-8">
+      <div class="flex items-center gap-4 text-sm text-gray-600">
+        <time>November 29, 2023</time>
+        <span class="w-1 h-1 bg-gray-300 rounded-full"></span>
+        <span>8 min read</span>
+        <span class="w-1 h-1 bg-gray-300 rounded-full"></span>
+        <span>Development</span>
+      </div>
+
+      <div class="space-y-4">
+        <h1 class="text-4xl font-bold tracking-tight">Building a Modern E-commerce Platform</h1>
+        <p class="text-xl text-gray-600 leading-relaxed">
+          A comprehensive guide to creating scalable online stores using Astro.js, TypeScript, and modern web technologies.
+        </p>
+      </div>
+
+      <div class="bg-gray-50 rounded-xl p-8 my-8">
+        <h2 class="text-lg font-semibold mb-4">Quick Overview</h2>
+        <div class="grid md:grid-cols-2 gap-6">
+          <div>
+            <h3 class="font-medium mb-2">Tech Stack</h3>
+            <ul class="space-y-2 text-gray-600">
+              <li class="flex items-center gap-2">
+                <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
+                Astro.js for performance
+              </li>
+              <li class="flex items-center gap-2">
+                <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
+                TypeScript for type safety
+              </li>
+              <li class="flex items-center gap-2">
+                <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
+                Tailwind CSS for styling
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="font-medium mb-2">Key Features</h3>
+            <ul class="space-y-2 text-gray-600">
+              <li class="flex items-center gap-2">
+                <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
+                Dynamic cart system
+              </li>
+              <li class="flex items-center gap-2">
+                <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
+                Category filtering
+              </li>
+              <li class="flex items-center gap-2">
+                <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
+                Responsive design
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
 
-      <!-- Content -->
-      <div class="space-y-6">
-        <h2>Tech Stack Overview</h2>
-        <p>This e-commerce template is built using modern web technologies:</p>
-        <ul>
-          <li><strong>Astro.js</strong> - For fast, static site generation</li>
-          <li><strong>TypeScript</strong> - Ensuring type safety and better development experience</li>
-          <li><strong>Tailwind CSS</strong> - For responsive, utility-first styling</li>
-          <li><strong>Local Storage</strong> - Managing cart state client-side</li>
-        </ul>
+      <div class="prose prose-lg max-w-none">
+        <h2 class="text-2xl font-bold mt-12 mb-6">Modern Development Approach</h2>
+        <p>
+          Our e-commerce template leverages Astro.js's powerful static site generation capabilities, delivering lightning-fast page loads and optimal performance. Combined with TypeScript's robust type system, we ensure a development experience that's both productive and maintainable.
+        </p>
 
-        <h2>Key Features</h2>
-        <ul>
-          <li>Product categorization and filtering</li>
-          <li>Shopping cart with persistent storage</li>
-          <li>Responsive design for all devices</li>
-          <li>Blog integration with beehiiv</li>
-          <li>Apple-inspired design system</li>
-          <li>TypeScript for enhanced development</li>
-        </ul>
+        <h2 class="text-2xl font-bold mt-12 mb-6">Performance & User Experience</h2>
+        <p>
+          Every aspect of the platform is optimized for speed and usability. From the responsive product grid to the seamless cart interactions, we've crafted an experience that feels natural and engaging on any device.
+        </p>
 
-        <h2>Performance Considerations</h2>
-        <p>The template is optimized for performance through:</p>
-        <ul>
-          <li>Static site generation with Astro.js</li>
-          <li>Optimized image loading</li>
-          <li>Minimal JavaScript usage</li>
-          <li>Efficient state management</li>
-        </ul>
+        <h2 class="text-2xl font-bold mt-12 mb-6">Future-Ready Architecture</h2>
+        <p>
+          Built with scalability in mind, our template provides a solid foundation for growth. Whether you're launching a small boutique or planning for larger scale operations, the architecture adapts to your needs.
+        </p>
 
-        <h2>Future Enhancements</h2>
-        <p>Planned features and improvements include:</p>
-        <ul>
-          <li>Stripe paym
+        <div class="border-t border-gray-200 mt-12 pt-8">
+          <a 
+            href="/blog" 
+            class="inline-flex items-center text-sm font-medium text-gray-600 hover:text-black transition-colors"
+          >
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+            Back to Blog
+          </a>
+        </div>
+      </div>
+    </div>
+  </article>
+</Layout>
+
+<style>
+.prose {
+  max-width: none;
+}
+.prose h2 {
+  font-weight: 700;
+  line-height: 1.3;
+}
+.prose p {
+  margin-bottom: 1.5rem;
+  line-height: 1.75;
+  color: #374151;
+}
+</style>
