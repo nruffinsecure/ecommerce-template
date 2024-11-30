@@ -18,8 +18,17 @@ const currentPath = Astro.url.pathname;
     <div class="flex items-center justify-between h-16">
       <a href="/" class="text-xl font-semibold">NR</a>
       
-      <!-- Desktop Menu -->
-      <div class="hidden md:flex items-center space-x-8">
+      <!-- Mobile Menu Button -->
+      <div class="flex items-center md:hidden">
+        <button type="button" class="text-gray-600 hover:text-gray-900" id="menu-button" aria-label="Toggle menu">
+          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Desktop Navigation -->
+      <div class="nav-links hidden md:flex items-center space-x-8">
         {navItems.map((item) => (
           <a 
             href={item.path}
@@ -30,48 +39,69 @@ const currentPath = Astro.url.pathname;
           >
             {item.name}
             {item.name === 'Cart' && (
-              <span id="cart-count" class="ml-1 hidden bg-black text-white text-xs px-1.5 py-0.5 rounded-full">0</span>
+              <span id="cart-count" class="ml-1 hidden bg-black text-white text-xs px-1.5 py-0.5 rounded-full">
+                0
+              </span>
             )}
           </a>
         ))}
       </div>
+    </div>
 
-      <!-- Mobile Menu Button -->
-      <button type="button" class="inline-flex md:hidden items-center justify-center p-2" id="mobile-menu-button">
-        <span class="sr-only">Open menu</span>
-        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-        </svg>
-      </button>
-
-      <!-- Mobile Menu Panel -->
-      <div class="hidden md:hidden absolute top-16 left-0 right-0 bg-white z-50 border-b border-gray-200" id="mobile-menu">
-        <div class="px-4 pt-2 pb-3 space-y-1">
-          {navItems.map((item) => (
-            <a
-              href={item.path}
-              class:list={[
-                "block px-3 py-2 text-base",
-                currentPath === item.path ? "text-black font-medium" : "text-gray-600"
-              ]}
-            >
-              {item.name}
-            </a>
-          ))}
-        </div>
+    <!-- Mobile Navigation -->
+    <div id="mobile-menu" class="hidden md:hidden">
+      <div class="px-2 pt-2 pb-3 space-y-1">
+        {navItems.map((item) => (
+          <a
+            href={item.path}
+            class:list={[
+              "block px-3 py-2 text-base font-medium",
+              currentPath === item.path ? "text-black" : "text-gray-600"
+            ]}
+          >
+            {item.name}
+          </a>
+        ))}
       </div>
     </div>
   </nav>
 </header>
 
+<style>
+  #mobile-menu {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 64px;
+    background-color: white;
+    border-bottom: 1px solid #e5e7eb;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  }
+</style>
+
 <script>
-  const mobileMenuButton = document.getElementById('mobile-menu-button');
+  const menuButton = document.getElementById('menu-button');
   const mobileMenu = document.getElementById('mobile-menu');
 
-  if (mobileMenuButton && mobileMenu) {
-    mobileMenuButton.addEventListener('click', () => {
-      const isHidden = mobileMenu.classList.contains('hidden');
-      mobileMenu.classList.toggle('hidden', !isHidden);
-    });
+  menuButton?.addEventListener('click', () => {
+    mobileMenu?.classList.toggle('hidden');
+  });
+
+  // Update cart count
+  function updateCartCount() {
+    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    const count = cart.reduce((total: number, item: any) => total + item.quantity, 0);
+    const cartCount = document.getElementById('cart-count');
+    
+    if (cartCount) {
+      cartCount.textContent = count.toString();
+      cartCount.style.display = count > 0 ? 'inline-flex' : 'none';
+    }
   }
+
+  document.addEventListener('astro:page-load', () => {
+    updateCartCount();
+  });
+
+  window.addEventListener('cart-updated', updateCartCount);
 </script>
