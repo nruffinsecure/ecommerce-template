@@ -9,9 +9,11 @@
   
   <style>
     .hamburger {
-      padding: 20px;
-      cursor: pointer;
       display: none;
+      padding: 1rem;
+      cursor: pointer;
+      position: relative;
+      z-index: 50;
     }
   
     .line {
@@ -27,6 +29,32 @@
       .hamburger {
         display: block;
       }
+  
+      .hamburger.active .line:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+      }
+  
+      .hamburger.active .line:nth-child(2) {
+        opacity: 0;
+      }
+  
+      .hamburger.active .line:nth-child(3) {
+        transform: translateY(-8px) rotate(-45deg);
+      }
     }
   </style>
+  
+  <script>
+    document.addEventListener('astro:page-load', () => {
+      const hamburger = document.querySelector('.hamburger');
+      const navLinks = document.querySelector('.nav-links');
+      
+      if (!hamburger || !navLinks) return;
+      
+      hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('active');
+        navLinks.classList.toggle('expanded');
+      });
+    });
+  </script>
   
