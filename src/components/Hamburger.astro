@@ -1,0 +1,32 @@
+---
+// src/components/Hamburger.astro
+---
+<div class="hamburger">
+    <span class="line"></span>
+    <span class="line"></span>
+    <span class="line"></span>
+  </div>
+  
+  <style>
+    .hamburger {
+      padding: 20px;
+      cursor: pointer;
+      display: none;
+    }
+  
+    .line {
+      display: block;
+      width: 25px;
+      height: 3px;
+      margin: 5px auto;
+      background-color: #374151;
+      transition: all 0.3s ease-in-out;
+    }
+  
+    @media (max-width: 768px) {
+      .hamburger {
+        display: block;
+      }
+    }
+  </style>
+  
