@@ -1,31 +1,25 @@
 ---
-// src/pages/cart.astro
 import Layout from '../layouts/Layout.astro';
-
-interface CartItem {
-  id: number;
-  title: string;
-  price: number;
-  description: string;
-  image: string;
-  category: string;
-  quantity: number;
-}
+import type { Product, CartItem } from '../types';
 ---
 
 <Layout title="Cart | Store">
-  <div class="max-w-7xl mx-auto px-4 py-16">
-    <h1 class="text-5xl font-bold text-center mb-16 gradient-text">Shopping Cart</h1>
+  <div class="max-w-4xl mx-auto px-4 py-16">
+    <h1 class="text-4xl font-bold mb-8">Shopping Cart</h1>
     
-    <div id="cart-items" class="space-y-8">
-      <!-- Cart items will be dynamically inserted here -->
+    <div id="cart-items" class="space-y-4">
+      <!-- Cart items will be rendered here -->
     </div>
 
-    <div class="mt-8 flex justify-between items-center border-t pt-8">
-      <div class="text-2xl font-bold">Total: $<span id="cart-total">0.00</span></div>
+    <div id="cart-summary" class="mt-8 border-t pt-4">
+      <div class="flex justify-between items-center">
+        <span class="text-xl font-semibold">Total:</span>
+        <span id="cart-total" class="text-2xl font-bold">$0.00</span>
+      </div>
+      
       <button 
         id="checkout-button"
-        class="px-8 py-3 rounded-full bg-black text-white hover:bg-gray-800 transition-colors"
+        class="w-full bg-black text-white py-3 px-6 rounded-full mt-6 hover:bg-gray-800 transition-colors"
       >
         Proceed to Checkout
       </button>
@@ -34,19 +28,74 @@ interface CartItem {
 </Layout>
 
 <script>
-  import type { CartItem } from '../types';
-
-  function updateCart(): void {
-    // ... rest of your updateCart function
+  interface CartItem {
+    id: number;
+    title: string;
+    price: number;
+    description: string;
+    image: string;
+    category: string;
+    quantity: number;
   }
 
-  function updateQuantity(productId: number, newQuantity: number): void {
-    // ... rest of your updateQuantity function
+  function updateCart() {
+    const cart = JSON.parse(localStorage.getItem('cart') || '[]') as CartItem[];
+    const cartContainer = document.getElementById('cart-items');
+    const cartTotal = document.getElementById('cart-total');
+    
+    if (!cartContainer || !cartTotal) return;
+
+    if (cart.length === 0) {
+      cartContainer.innerHTML = `
+        <div class="text-center py-8 text-gray-500">
+          Your cart is empty
+        </div>
+      `;
+      cartTotal.textContent = '$0.00';
+      return;
+    }
+
+    let total = 0;
+    cartContainer.innerHTML = cart.map((item: CartItem) => {
+      const itemTotal = item.price * item.quantity;
+      total += itemTotal;
+      return `
+        <div class="flex items-center justify-between border rounded-lg p-4">
+          <div class="flex items-center space-x-4">
+            <img src="${item.image}" alt="${item.title}" class="w-16 h-16 object-cover rounded"/>
+            <div>
+              <h3 class="font-semibold">${item.title}</h3>
+              <p class="text-gray-600">$${item.price} × ${item.quantity}</p>
+            </div>
+          </div>
+          <div class="flex items-center space-x-4">
+            <span class="font-semibold">$${itemTotal.toFixed(2)}</span>
+            <button 
+              onclick="removeFromCart(${item.id})" 
+              class="px-3 py-1 rounded-full border border-gray-300 hover:bg-red-50 text-red-600 hover:text-red-700 hover:border-red-200 transition-all duration-200 flex items-center gap-1"
+            >
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+              </svg>
+              Remove
+            </button>
+          </div>
+        </div>
+      `;
+    }).join('');
+    
+    cartTotal.textContent = `$${total.toFixed(2)}`;
   }
 
-  function removeFromCart(productId: number): void {
-    // ... rest of your removeFromCart function
+  function removeFromCart(productId: number) {
+    const cart = JSON.parse(localStorage.getItem('cart') || '[]') as CartItem[];
+    const updatedCart = cart.filter(item => item.id !== productId);
+    localStorage.setItem('cart', JSON.stringify(updatedCart));
+    updateCart();
   }
+
+  // Make removeFromCart available globally
+  (window as any).removeFromCart = removeFromCart;
 
   // Initial cart render
   updateCart();
