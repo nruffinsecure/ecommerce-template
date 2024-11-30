@@ -16,18 +16,18 @@ const currentPath = Astro.url.pathname;
 <header class="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-gray-200">
   <nav class="max-w-7xl mx-auto px-4">
     <div class="flex items-center justify-between h-16">
-      <a href="/" class="text-xl font-semibold z-50">NR</a>
+      <a href="/" class="text-xl font-semibold">NR</a>
       
-      <div class="md:hidden">
+      <div class="block md:hidden">
         <Hamburger />
       </div>
 
-      <div class="nav-links md:flex items-center space-x-8">
+      <div class="nav-links">
         {navItems.map((item) => (
           <a 
             href={item.path}
             class:list={[
-              "block py-2 text-sm hover:text-gray-900 transition-colors",
+              "text-sm hover:text-gray-900 transition-colors",
               currentPath === item.path ? "text-black font-medium" : "text-gray-600"
             ]}
           >
@@ -45,20 +45,21 @@ const currentPath = Astro.url.pathname;
 </header>
 
 <style>
+  .nav-links {
+    @apply hidden md:flex items-center space-x-8;
+  }
+
   @media (max-width: 768px) {
     .nav-links {
       display: none;
       position: fixed;
-      top: 64px;
-      left: 0;
-      right: 0;
-      background: white;
+      inset: 64px 0 0 0;
+      background-color: white;
       padding: 2rem;
       flex-direction: column;
-      gap: 1rem;
-      width: 100%;
-      text-align: center;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      align-items: center;
+      gap: 1.5rem;
+      z-index: 40;
     }
 
     .nav-links.expanded {
