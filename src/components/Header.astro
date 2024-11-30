@@ -15,7 +15,7 @@ const currentPath = Astro.url.pathname;
   <nav class="max-w-7xl mx-auto px-4">
     <div class="flex items-center justify-between h-16">
       <a href="/" class="text-xl font-semibold">NR</a>
-      
+
       <!-- Desktop Navigation -->
       <div class="hidden md:flex items-center space-x-8">
         {navItems.map((item) => (
@@ -37,14 +37,14 @@ const currentPath = Astro.url.pathname;
       </div>
 
       <!-- Mobile Menu Button -->
-      <button type="button" class="block md:hidden p-2 text-gray-600" id="menu-button">
-        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+      <button type="button" class="block md:hidden p-2 text-gray-600" id="mobile-button">
+        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
         </svg>
       </button>
     </div>
 
-    <!-- Mobile Navigation -->
+    <!-- Mobile Menu -->
     <div id="mobile-menu" class="hidden">
       <div class="px-2 pt-2 pb-3 space-y-1">
         {navItems.map((item) => (
@@ -64,47 +64,60 @@ const currentPath = Astro.url.pathname;
 </header>
 
 <style>
+  #mobile-menu {
+    position: fixed;
+    top: 64px;
+    left: 0;
+    right: 0;
+    width: 100%;
+    background-color: white;
+    border-bottom: 1px solid #e5e7eb;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    z-index: 40;
+  }
+
   @media (max-width: 768px) {
-    #mobile-menu {
-      position: absolute;
-      top: 64px;
-      left: 0;
-      right: 0;
-      background-color: white;
-      border-bottom: 1px solid #e5e7eb;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-      z-index: 40;
+    #mobile-menu.show {
+      display: block;
     }
   }
 </style>
 
 <script>
-  const handleMobileMenu = () => {
-    const menuButton = document.getElementById('menu-button');
-    const mobileMenu = document.getElementById('mobile-menu');
-
-    menuButton?.addEventListener('click', () => {
-      mobileMenu?.classList.toggle('hidden');
-    });
-  };
-
-  const handleCartCount = () => {
-    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-    const count = cart.reduce((total: number, item: { quantity: number }) => total + item.quantity, 0);
-    const cartCount = document.getElementById('cart-count');
-    
-    if (cartCount) {
-      cartCount.textContent = count.toString();
-      cartCount.style.display = count > 0 ? 'inline-flex' : 'none';
-    }
-  };
-
   document.addEventListener('astro:page-load', () => {
-    handleMobileMenu();
-    handleCartCount();
+    const button = document.getElementById('mobile-button');
+    const menu = document.getElementById('mobile-menu');
+
+    button?.addEventListener('click', () => {
+      menu?.classList.toggle('hidden');
+    });
+
+    // Cart functionality
+    function updateCartCount() {
+      const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+      const count = cart.reduce((total: number, item: { quantity: number }) => total + item.quantity, 0);
+      const cartCount = document.getElementById('cart-count');
+      
+      if (cartCount) {
+        cartCount.textContent = count.toString();
+        cartCount.style.display = count > 0 ? 'inline-flex' : 'none';
+      }
+    }
+
+    updateCartCount();
   });
 
   window.addEventListener('cart-updated', () => {
-    handleCartCount();
+    const updateCartCount = () => {
+      const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+      const count = cart.reduce((total: number, item: { quantity: number }) => total + item.quantity, 0);
+      const cartCount = document.getElementById('cart-count');
+      
+      if (cartCount) {
+        cartCount.textContent = count.toString();
+        cartCount.style.display = count > 0 ? 'inline-flex' : 'none';
+      }
+    };
+    updateCartCount();
   });
 </script>
