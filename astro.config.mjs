@@ -7,4 +7,8 @@ export default defineConfig({
     config: { path: './tailwind.config.cjs' },
     applyBaseStyles: false
   })],
+  output: 'static',  // Add this for static site generation
+  server: {
+    host: true  // Add this to ensure proper network access
+  }
 });

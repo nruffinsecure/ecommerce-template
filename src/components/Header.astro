@@ -14,7 +14,7 @@ const currentPath = Astro.url.pathname;
 <header class="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-gray-200">
   <nav class="max-w-7xl mx-auto px-4">
     <div class="flex items-center justify-between h-16">
-      <a href="/" class="text-xl font-semibold">NR</a>
+      <a href="/" class="text-xl font-bold tracking-tight px-2">NR</a>
 
       <!-- Desktop Navigation -->
       <div class="nav-links">
@@ -22,8 +22,8 @@ const currentPath = Astro.url.pathname;
           <a 
             href={item.path}
             class:list={[
-              "text-sm hover:text-gray-900 transition-colors",
-              currentPath === item.path ? "text-black font-medium" : "text-gray-600"
+              "text-sm hover:text-gray-900 transition-colors py-2 px-3 rounded-lg",
+              currentPath === item.path ? "text-black font-medium bg-gray-50" : "text-gray-600"
             ]}
           >
             {item.name}
@@ -36,8 +36,13 @@ const currentPath = Astro.url.pathname;
         ))}
       </div>
 
-      <!-- Mobile Menu Button -->
-      <button type="button" class="block md:hidden p-2 text-gray-600" id="mobile-button">
+      <!-- Enhanced Mobile Menu Button -->
+      <button 
+        type="button" 
+        class="block md:hidden p-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors" 
+        id="mobile-button"
+        aria-label="Menu"
+      >
         <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
         </svg>
@@ -61,14 +66,48 @@ const currentPath = Astro.url.pathname;
       left: 0;
       right: 0;
       background: white;
-      padding: 1rem;
+      padding: 0.75rem;
       flex-direction: column;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
       z-index: 40;
+      opacity: 0;
+      transform: translateY(-10px);
+      transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+    }
+
+    .nav-links a {
+      padding: 0.75rem 1rem;
+      border-radius: 0.5rem;
+      transition: all 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      background-color: #f3f4f6;
+    }
+
+    .nav-links a:active {
+      background-color: #e5e7eb;
     }
 
     .nav-links.expanded {
       display: flex;
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Mobile menu backdrop */
+  @media (max-width: 768px) {
+    .nav-links.expanded::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(4px);
+      z-index: -1;
     }
   }
 </style>
@@ -92,6 +131,18 @@ const currentPath = Astro.url.pathname;
     if (button && navLinks) {
       button.addEventListener('click', () => {
         navLinks.classList.toggle('expanded');
+        // Prevent body scroll when menu is open
+        document.body.style.overflow = navLinks.classList.contains('expanded') ? 'hidden' : '';
+      });
+
+      // Close menu when clicking outside
+      document.addEventListener('click', (e) => {
+        if (!button.contains(e.target as Node) && 
+            !navLinks.contains(e.target as Node) && 
+            navLinks.classList.contains('expanded')) {
+          navLinks.classList.remove('expanded');
+          document.body.style.overflow = '';
+        }
       });
 
       // Close menu when clicking a link
@@ -99,6 +150,7 @@ const currentPath = Astro.url.pathname;
       links.forEach(link => {
         link.addEventListener('click', () => {
           navLinks.classList.remove('expanded');
+          document.body.style.overflow = '';
         });
       });
     }
