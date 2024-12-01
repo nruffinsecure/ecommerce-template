@@ -15,21 +15,3 @@
   gap: 1rem;
   margin: 0;
 }
-
-@media (max-width: 768px) {
-  .nav-links {
-    display: none;
-    position: fixed;
-    top: 70px;
-    left: 0;
-    right: 0;
-    background: white;
-    padding: 1rem;
-    flex-direction: column;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  }
-
-  .nav-links.expanded {
-    display: flex;
-  }
-}
