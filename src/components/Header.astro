@@ -17,13 +17,13 @@ const currentPath = Astro.url.pathname;
       <a href="/" class="text-xl font-semibold">NR</a>
 
       <!-- Desktop Navigation -->
-      <div class="nav-links">
+      <div class="hidden md:flex items-center space-x-8">
         {navItems.map((item) => (
           <a 
             href={item.path}
             class:list={[
-              "text-sm hover:text-gray-900 transition-colors py-2 px-3 rounded-lg",
-              currentPath === item.path ? "text-black font-medium bg-gray-50" : "text-gray-600"
+              "text-sm hover:text-gray-900 transition-colors",
+              currentPath === item.path ? "text-black font-medium" : "text-gray-600"
             ]}
           >
             {item.name}
@@ -32,6 +32,21 @@ const currentPath = Astro.url.pathname;
                 0
               </span>
             )}
+          </a>
+        ))}
+      </div>
+
+      <!-- Mobile Navigation -->
+      <div class="nav-links md:hidden">
+        {navItems.map((item) => (
+          <a 
+            href={item.path}
+            class:list={[
+              "block py-2 text-sm transition-colors",
+              currentPath === item.path ? "text-black font-medium" : "text-gray-600"
+            ]}
+          >
+            {item.name}
           </a>
         ))}
       </div>
@@ -53,84 +68,47 @@ const currentPath = Astro.url.pathname;
 
 <style>
   .nav-links {
-    display: flex;
-    gap: 1rem;
-    margin: 0;
+    display: none;
+    position: fixed;
+    top: 64px;
+    left: 0;
+    right: 0;
+    background: white;
+    padding: 1rem;
+    flex-direction: column;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    z-index: 40;
   }
 
-  @media (max-width: 768px) {
+  .nav-links.expanded {
+    display: flex;
+    animation: slideDown 0.2s ease-out;
+  }
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (min-width: 768px) {
     .nav-links {
-      display: none;
-      position: fixed;
-      top: 64px;
-      left: 0;
-      right: 0;
-      background: white;
-      padding: 1rem;
-      flex-direction: column;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      z-index: 40;
-    }
-
-    .nav-links a {
-      padding: 0.75rem 1rem;
-      border-radius: 0.5rem;
-      transition: all 0.2s ease;
-    }
-
-    .nav-links a:hover {
-      background-color: #f3f4f6;
-    }
-
-    .nav-links.expanded {
+      position: static;
+      padding: 0;
+      box-shadow: none;
       display: flex;
-      animation: slideDown 0.2s ease-out;
-    }
-
-    @keyframes slideDown {
-      from {
-        opacity: 0;
-        transform: translateY(-10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      flex-direction: row;
+      gap: 2rem;
     }
   }
 </style>
 
 <script>
-  const setupMobileMenu = () => {
-    const button = document.getElementById('mobile-button');
-    const navLinks = document.querySelector('.nav-links');
-
-    if (button && navLinks) {
-      button.addEventListener('click', () => {
-        console.log('Menu clicked');
-        navLinks.classList.toggle('expanded');
-      });
-
-      // Close menu when clicking outside
-      document.addEventListener('click', (e) => {
-        const target = e.target as Node;
-        if (!button.contains(target) && 
-            !navLinks.contains(target) && 
-            navLinks.classList.contains('expanded')) {
-          navLinks.classList.remove('expanded');
-        }
-      });
-
-      // Close menu when clicking a link
-      const links = navLinks.querySelectorAll('a');
-      links.forEach(link => {
-        link.addEventListener('click', () => {
-          navLinks.classList.remove('expanded');
-        });
-      });
-    }
-  };
-
   function handleCartCount() {
     const cart = JSON.parse(localStorage.getItem('cart') || '[]');
     const count = cart.reduce((total: number, item: { quantity: number }): number => total + item.quantity, 0);
@@ -143,7 +121,24 @@ const currentPath = Astro.url.pathname;
   }
 
   document.addEventListener('astro:page-load', () => {
-    setupMobileMenu();
+    const button = document.getElementById('mobile-button');
+    const navLinks = document.querySelector('.nav-links');
+
+    if (button && navLinks) {
+      button.addEventListener('click', () => {
+        console.log('Menu clicked'); // Debug line
+        navLinks.classList.toggle('expanded');
+      });
+
+      // Close menu when clicking a link
+      const links = navLinks.querySelectorAll('a');
+      links.forEach(link => {
+        link.addEventListener('click', () => {
+          navLinks.classList.remove('expanded');
+        });
+      });
+    }
+
     handleCartCount();
   });
 
