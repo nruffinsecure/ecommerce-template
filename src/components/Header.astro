@@ -70,9 +70,6 @@ const currentPath = Astro.url.pathname;
       flex-direction: column;
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
       z-index: 40;
-      opacity: 0;
-      transform: translateY(-10px);
-      transition: all 0.2s ease-out;
     }
 
     .nav-links a {
@@ -85,37 +82,43 @@ const currentPath = Astro.url.pathname;
       background-color: #f3f4f6;
     }
 
-    .nav-links a:active {
-      background-color: #e5e7eb;
-    }
-
     .nav-links.expanded {
       display: flex;
-      opacity: 1;
-      transform: translateY(0);
+      animation: slideDown 0.2s ease-out;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
   }
 </style>
 
 <script>
-  function handleCartCount() {
-    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-    const count = cart.reduce((total: number, item: { quantity: number }) => total + item.quantity, 0);
-    const cartCount = document.getElementById('cart-count');
-    
-    if (cartCount) {
-      cartCount.textContent = count.toString();
-      cartCount.style.display = count > 0 ? 'inline-flex' : 'none';
-    }
-  }
-
-  document.addEventListener('astro:page-load', () => {
+  const setupMobileMenu = () => {
     const button = document.getElementById('mobile-button');
     const navLinks = document.querySelector('.nav-links');
 
     if (button && navLinks) {
       button.addEventListener('click', () => {
+        console.log('Menu clicked');
         navLinks.classList.toggle('expanded');
+      });
+
+      // Close menu when clicking outside
+      document.addEventListener('click', (e) => {
+        const target = e.target as Node;
+        if (!button.contains(target) && 
+            !navLinks.contains(target) && 
+            navLinks.classList.contains('expanded')) {
+          navLinks.classList.remove('expanded');
+        }
       });
 
       // Close menu when clicking a link
@@ -126,7 +129,21 @@ const currentPath = Astro.url.pathname;
         });
       });
     }
+  };
 
+  function handleCartCount() {
+    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    const count = cart.reduce((total: number, item: { quantity: number }): number => total + item.quantity, 0);
+    const cartCount = document.getElementById('cart-count');
+    
+    if (cartCount) {
+      cartCount.textContent = count.toString();
+      cartCount.style.display = count > 0 ? 'inline-flex' : 'none';
+    }
+  }
+
+  document.addEventListener('astro:page-load', () => {
+    setupMobileMenu();
     handleCartCount();
   });
 
